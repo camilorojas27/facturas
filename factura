@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generador de Remisión</title>
+
+<style>
+body{
+font-family: Arial;
+margin:40px;
+}
+
+input{
+padding:6px;
+margin:4px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:8px;
+text-align:center;
+}
+
+button{
+padding:10px 20px;
+margin-top:20px;
+}
+</style>
+
+<script>
+
+function calcularTotal(fila){
+
+let precio = parseFloat(document.getElementById("precio"+fila).value) || 0;
+let cantidad = parseFloat(document.getElementById("cantidad"+fila).value) || 0;
+let descuento = parseFloat(document.getElementById("descuento"+fila).value) || 0;
+
+let total = precio * cantidad;
+total = total - (total * descuento / 100);
+
+document.getElementById("total"+fila).innerText = total.toFixed(0);
+
+calcularGranTotal();
+
+}
+
+function calcularGranTotal(){
+
+let suma = 0;
+
+for(let i=1;i<=10;i++){
+
+let t = parseFloat(document.getElementById("total"+i).innerText) || 0;
+
+suma += t;
+
+}
+
+document.getElementById("granTotal").innerText = suma;
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2>Remisión</h2>
+
+<h3>Datos del cliente</h3>
+
+Nombre: <input type="text"><br>
+Dirección: <input type="text"><br>
+Ciudad: <input type="text"><br>
+Teléfono: <input type="text"><br>
+Cédula: <input type="text"><br>
+Fecha: <input type="date"><br>
+Fecha Garantía: <input type="date"><br>
+
+
+<h3>Productos</h3>
+
+<table>
+
+<tr>
+<th>Producto</th>
+<th>Precio</th>
+<th>Cantidad</th>
+<th>Descuento %</th>
+<th>Total</th>
+</tr>
+
+<script>
+
+for(let i=1;i<=10;i++){
+
+document.write(`
+<tr>
+
+<td><input type="text"></td>
+
+<td><input type="number" id="precio${i}" onkeyup="calcularTotal(${i})"></td>
+
+<td><input type="number" id="cantidad${i}" onkeyup="calcularTotal(${i})"></td>
+
+<td><input type="number" id="descuento${i}" onkeyup="calcularTotal(${i})"></td>
+
+<td id="total${i}">0</td>
+
+</tr>
+`)
+
+}
+
+</script>
+
+</table>
+
+<h3>Total: $ <span id="granTotal">0</span></h3>
+
+<button onclick="window.print()">Imprimir / Guardar PDF</button>
+
+</body>
+</html>
