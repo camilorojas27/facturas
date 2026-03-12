@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -113,54 +112,34 @@ background:white;
 <script>
 
 function numeroRemision(){
-
-let num = localStorage.getItem("remisionNumero");
-
-if(!num){
-num = 1;
-}else{
-num = parseInt(num)+1;
-}
-
-localStorage.setItem("remisionNumero",num);
-
-document.getElementById("numRemision").innerText = num;
-
+    let num = localStorage.getItem("remisionNumero");
+    if(!num){
+        num = 1;
+    } else {
+        num = parseInt(num)+1;
+    }
+    localStorage.setItem("remisionNumero",num);
+    document.getElementById("numRemision").innerText = num;
 }
 
 function calcularTotal(fila){
-
-let precio = parseFloat(document.getElementById("precio"+fila).value) || 0;
-let cantidad = parseFloat(document.getElementById("cantidad"+fila).value) || 0;
-let descuento = parseFloat(document.getElementById("descuento"+fila).value) || 0;
-
-let total = precio * cantidad;
-total = total - (total * descuento / 100);
-
-document.getElementById("total"+fila).innerText =
-"$ " + new Intl.NumberFormat('es-CO').format(total);
-
-calcularGranTotal();
-
+    let precio = parseFloat(document.getElementById("precio"+fila).value) || 0;
+    let cantidad = parseFloat(document.getElementById("cantidad"+fila).value) || 0;
+    let total = precio * cantidad;
+    document.getElementById("total"+fila).innerText =
+        "$ " + new Intl.NumberFormat('es-CO').format(total);
+    calcularGranTotal();
 }
 
 function calcularGranTotal(){
-
-let suma = 0;
-
-for(let i=1;i<=15;i++){
-
-let texto = document.getElementById("total"+i).innerText;
-
-texto = texto.replace("$","").replace(/\./g,'');
-
-suma += parseFloat(texto) || 0;
-
-}
-
-document.getElementById("granTotal").innerText =
-"$ " + new Intl.NumberFormat('es-CO').format(suma);
-
+    let suma = 0;
+    for(let i=1;i<=15;i++){
+        let texto = document.getElementById("total"+i).innerText;
+        texto = texto.replace("$","").replace(/\./g,'');
+        suma += parseFloat(texto) || 0;
+    }
+    document.getElementById("granTotal").innerText =
+        "$ " + new Intl.NumberFormat('es-CO').format(suma);
 }
 
 window.onload = numeroRemision;
@@ -178,18 +157,17 @@ window.onload = numeroRemision;
 <div class="encabezado">
 
 <div class="logo">
-FLASH
+CELDONSTORE
 </div>
 
 <div class="empresa">
 
 <b>CELDON STORE</b><br>
 NIT 1121897207-7<br>
-<b>REGIMEN SIMPLIDICADO</b><br>
+<b>REGIMEN SIMPLIFICADO</b><br>
 CR 31 A36 14 LOCAL 208 CENTRO COMERCIAL EL PARQUE<br>
 Villavicencio<br>
 Contacto 3148471575 <br>
-
 
 </div>
 
@@ -238,34 +216,24 @@ N° <span id="numRemision"></span>
 
 <tr>
 <th>Item</th>
+<th>Descripción</th>
 <th>Precio</th>
 <th>Cantidad</th>
-<th>Descuento %</th>
 <th>Total</th>
 </tr>
 
 <script>
 
 for(let i=1;i<=15;i++){
-
-document.write(`
-
+    document.write(`
 <tr>
-
 <td><input></td>
-
+<td><input></td>
 <td><input type="number" id="precio${i}" oninput="calcularTotal(${i})"></td>
-
 <td><input type="number" id="cantidad${i}" oninput="calcularTotal(${i})"></td>
-
-<td><input type="number" id="descuento${i}" oninput="calcularTotal(${i})"></td>
-
 <td id="total${i}">$ 0</td>
-
 </tr>
-
 `)
-
 }
 
 </script>
@@ -275,12 +243,10 @@ document.write(`
 <div class="totales">
 
 <table>
-
 <tr>
 <td><b>Total</b></td>
 <td><span id="granTotal">$ 0</span></td>
 </tr>
-
 </table>
 
 </div>
@@ -303,4 +269,3 @@ ACEPTADA FIRMA Y SELLO
 
 </body>
 </html>
-```
