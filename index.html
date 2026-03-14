@@ -53,6 +53,7 @@ font-size:13px;
 
 th{
 background:#f0f0f0;
+text-align:center;
 }
 
 input{
@@ -111,34 +112,46 @@ background:white;
 <script>
 
 function numeroRemision(){
-    let num = localStorage.getItem("remisionNumero");
-    if(!num){
-        num = 1;
-    } else {
-        num = parseInt(num)+1;
-    }
-    localStorage.setItem("remisionNumero",num);
-    document.getElementById("numRemision").innerText = num;
+let num = localStorage.getItem("remisionNumero");
+
+if(!num){
+num = 1;
+}else{
+num = parseInt(num)+1;
+}
+
+localStorage.setItem("remisionNumero",num);
+document.getElementById("numRemision").innerText = num;
 }
 
 function calcularTotal(fila){
-    let precio = parseFloat(document.getElementById("precio"+fila).value) || 0;
-    let cantidad = parseFloat(document.getElementById("cantidad"+fila).value) || 0;
-    let total = precio * cantidad;
-    document.getElementById("total"+fila).innerText =
-        "$ " + new Intl.NumberFormat('es-CO').format(total);
-    calcularGranTotal();
+
+let precio = parseFloat(document.getElementById("precio"+fila).value) || 0;
+let cantidad = parseFloat(document.getElementById("cantidad"+fila).value) || 0;
+
+let total = precio * cantidad;
+
+document.getElementById("total"+fila).innerText =
+"$ " + new Intl.NumberFormat('es-CO').format(total);
+
+calcularGranTotal();
 }
 
 function calcularGranTotal(){
-    let suma = 0;
-    for(let i=1;i<=15;i++){
-        let texto = document.getElementById("total"+i).innerText;
-        texto = texto.replace("$","").replace(/\./g,'');
-        suma += parseFloat(texto) || 0;
-    }
-    document.getElementById("granTotal").innerText =
-        "$ " + new Intl.NumberFormat('es-CO').format(suma);
+
+let suma = 0;
+
+for(let i=1;i<=15;i++){
+
+let texto = document.getElementById("total"+i).innerText;
+texto = texto.replace(/[^0-9]/g,'');
+
+suma += parseFloat(texto) || 0;
+
+}
+
+document.getElementById("granTotal").innerText =
+"$ " + new Intl.NumberFormat('es-CO').format(suma);
 }
 
 window.onload = numeroRemision;
@@ -156,7 +169,7 @@ window.onload = numeroRemision;
 <div class="encabezado">
 
 <div class="logo">
-<img src="CELDONLOGO.PNG" alt="">
+<img src="CELDONLOGO.PNG" alt="Celdon Store Logo">
 </div>
 
 <div class="empresa">
@@ -224,12 +237,12 @@ N° <span id="numRemision"></span>
 <script>
 
 for(let i=1;i<=15;i++){
-    document.write(`
+document.write(`
 <tr>
 <td><input></td>
 <td><input></td>
-<td><input type="number" id="precio${i}" oninput="calcularTotal(${i})"></td>
-<td><input type="number" id="cantidad${i}" oninput="calcularTotal(${i})"></td>
+<td><input type="number" min="0" id="precio${i}" oninput="calcularTotal(${i})"></td>
+<td><input type="number" min="0" id="cantidad${i}" oninput="calcularTotal(${i})"></td>
 <td id="total${i}">$ 0</td>
 </tr>
 `)
